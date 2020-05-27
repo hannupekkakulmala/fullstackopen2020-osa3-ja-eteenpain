@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf build && cd ../puhelinluettelo-frontend && npm run build --prod && cp -r build ../puhelinluettelo-backend",
+    "build:ui": "rm -rf build && cd ../../../fullstackopen2020/osa3/puhelinluettelo-frontend/ && npm run build --prod && cp -r build ../../../Palautukset/osa3/puhelinluettelo/",
     "deploy:full": "npm run build:ui && git add . && git commit -m build:ui && git push heroku master"
   },
   "author": "Hanski",
