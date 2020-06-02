@@ -8,7 +8,9 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../../../fullstackopen2020/osa3/puhelinluettelo-frontend/ && npm run build --prod && cp -r build ../../../Palautukset/osa3/puhelinluettelo/ && cd ../../",
-    "deploy:full": "npm run build:ui && cd .. && git add . && git commit -m build:ui && git push heroku master"
+    "deploy:full": "npm run build:ui && cd .. && git add . && git commit -m build:ui && git push heroku master",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "Hanski",
   "license": "ISC",
@@ -21,6 +23,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^7.1.0",
     "nodemon": "^2.0.4"
   }
 }

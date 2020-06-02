@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
-const mongoose = require('mongoose')
+//const mongoose = require('mongoose')
 
 
 const Person = require('./models/person')
@@ -32,48 +32,24 @@ app.use(morgan(function (tokens, req, res) {
       tokens['response-time'](req, res), 'ms'
     ].join(' ')
   }
-  
+
 }))
 
-morgan.token('body', (req, res) => { 
-  return JSON.stringify(req.body) 
+morgan.token('body', (req) => {
+  return JSON.stringify(req.body)
 })
 
 app.use(cors())
-
-/*let persons = [
-    {
-      name: "Arto Hellas",
-      number: "040-123456",
-      id: 1
-    },
-    {
-      name: "Ada Lovelace",
-      number: "39-44-5323523",
-      id: 2
-    },
-    {
-      name: "Dan Abramov",
-      number: "12-43-234345",
-      id: 3
-    },
-    {
-      name: "Mary Poppendieck",
-      number: "39-23-6423122",
-      id: 4
-    }
-]*/
-
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(result => {
     res.json(result)
     //mongoose.connection.close()
   })
-  
+
 })
 
-app.get('/info', (req, res) => {
+app.get('/info', (req, res, next) => {
   Person.find({})
     .then(result => {
       const numberOfPeople = result.length
@@ -83,11 +59,11 @@ app.get('/info', (req, res) => {
         date: `<h3>${timeNow}</h3>`
       }
       res.send(`${info.content}${info.date}`)
-    
+
     })
     .catch(error => next(error))
 
-  
+
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -104,10 +80,10 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-        .then(result => {
-          res.status(204).end()
-        })
-        .catch(error => next(error))
+    .then( () => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -125,7 +101,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch( error => next(error))
+    .catch( error => next(error))
 
 })
 
@@ -145,14 +121,13 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 const errorHandler = (error, request, response, next) => {
-  //console.error(error.message)
-  //console.log('error.response.data =', error.response.data)
+
   console.log('error.message =', error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if(error.name === 'ValidationError') {
-    return response.status(400).send({error: error.message})
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)
