@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs/
+Document-Type: application/json
+
+{
+    "title": "Food blog",
+    "author": "Mervi Metsänhenki",
+    "url": "http://www.google.com",
+    "likes": 55
+}
