@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Hanskin loki",
-    "author": "Hanski ite",
-    "url": "http://www.enmuistakaansita.com",
-    "likes": 1488
+    "title": "Pappa was a copper",
+    "author": "Mamma was a hippy",
+    "url": "rhcp.com",
+    "likes": 133
 }

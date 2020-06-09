@@ -1,5 +1,5 @@
 POST http://localhost:3003/api/blogs/
-Document-Type: application/json
+Content-Type: application/json
 
 {
     "title": "Food blog",
