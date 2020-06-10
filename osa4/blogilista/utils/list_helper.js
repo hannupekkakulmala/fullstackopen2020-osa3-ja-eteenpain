@@ -26,14 +26,11 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-  //console.log('in mostBlogs function')
-  //console.log('blogs = ',)
-
   let authors = [], frequency = []
   let author
+
   for(let i = 0; i < blogs.length; i++) {
     author = blogs[i].author
-    console.log('blogs[i].author =', author)
     if(authors.includes(author)) {
       let index = authors.indexOf(author)
       frequency[index] += 1
@@ -42,8 +39,6 @@ const mostBlogs = (blogs) => {
       frequency.push(1)
     }
   }
-  console.log('authors =',authors,'frequency =', frequency)
-
   const highestIndex = frequency.indexOf(Math.max(...frequency))
 
   const newObject = 
@@ -51,9 +46,30 @@ const mostBlogs = (blogs) => {
     author: authors[highestIndex],
     blogs: frequency[highestIndex]
   }
+  return newObject
+}
 
-  console.log('newObject =', newObject)
-
+const mostLikes = (blogs) => {
+  let authors = [], likes = []
+  let author, num_likes
+  for(let i = 0; i < blogs.length; i++) {
+    author = blogs[i].author
+    num_likes = blogs[i].likes
+    if(authors.includes(author)) {
+      let index = authors.indexOf(author)
+      likes[index] += num_likes
+    } else {
+      authors.push(author)
+      likes.push(num_likes)
+    }
+  }
+  const highestIndex = likes.indexOf(Math.max(...likes))
+  
+  const newObject = 
+  {
+    author: authors[highestIndex],
+    likes: likes[highestIndex]
+  }
   return newObject
 }
 
@@ -61,5 +77,6 @@ module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
