@@ -12,6 +12,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', (request, response) => {
   const body = request.body
+  console.log('body.likes =', body.likes)
+  if(!body.likes) body.likes = 0
+  console.log('body.likes =', body.likes)
+
   const blog = new Blog({
     title: body.title,
     author: body.author,

@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-const helper = require('./test_helper')
+
 
 const initialBlogs = [
   {
@@ -77,11 +77,46 @@ test('identifier is called id', async () => {
   const response = await api.get('/api/blogs')
   
   response.body.map(blog => {
-    console.log("blog.id", blog.id)
-    console.log("blog._id", blog._id)
     expect(blog.id).toBeDefined()
   })
+})
+
+test('posting blogs work', async () => {
+  const blogs_at_start = await Blog.countDocuments({})
+
+  const blogObject = new Blog({
+    title: 'New blog I just created',
+    author: 'Mona Lizander',
+    url: 'http://www.u.arizon/Go_To_Considered_Harmful.html',
+    likes: 2,
+  })
+
+  await api
+    .post('/api/blogs')
+    .send(blogObject)
   
+  const blogs_at_end = await Blog.countDocuments({})
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(blog => blog.title)
+  
+  expect(blogs_at_end).toEqual(blogs_at_start + 1)
+  expect(contents).toContainEqual('New blog I just created')
+})
+
+test('if likes not given, its zero', async () => {
+  const blogObject = new Blog({
+    title: 'New blog I just created',
+    author: 'Mona Lizander',
+    url: 'http://www.u.arizon/Go_To_Considered_Harmful.html',
+    likes: undefined,
+  })
+
+  await api
+    .post('/api/blogs')
+    .send(blogObject)
+    
+  const response = await api.get('/api/blogs/')
+  expect(response.body[6].likes).toEqual(0)
 
 })
 
