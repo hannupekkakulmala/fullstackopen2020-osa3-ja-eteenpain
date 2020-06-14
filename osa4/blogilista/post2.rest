@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Pappa was a copper",
-    "author": "Mamma was a hippy",
-    "url": "rhcp.com",
-    "likes": 133
+    "title": "Mamman soppa-blogi",
+    "author": "Mamma Mömmöinen",
+    "url": "www.mammanreseptit.com",
+    "likes": 51
 }
