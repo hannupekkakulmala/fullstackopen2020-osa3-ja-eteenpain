@@ -120,6 +120,34 @@ test('if likes not given, its zero', async () => {
 
 })
 
+test('if title doesn\'t exist, respond with 400', async () => {
+  const blogObject = new Blog({
+    title: undefined,
+    author: 'Mona Lizander',
+    url: 'http://www.u.arizon/Go_To_Considered_Harmful.html',
+    likes: 15,
+  })
+
+  await api
+    .post('/api/blogs')
+    .send(blogObject)
+    .expect(400)
+})
+
+test('if url doesn\'t exist, respond with 400', async () => {
+  const blogObject = new Blog({
+    title: 'New blog I just created',
+    author: 'Mona Lizander',
+    url: undefined,
+    likes: 15,
+  })
+
+  await api
+    .post('/api/blogs')
+    .send(blogObject)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

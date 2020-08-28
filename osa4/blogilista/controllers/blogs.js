@@ -3,19 +3,14 @@ const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response) => {
 
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
+  const blogs = await Blog.find({})
+  response.json(blogs.map(blog => blog.toJSON()))
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', async (request, response) => {
   const body = request.body
-  console.log('body.likes =', body.likes)
   if(!body.likes) body.likes = 0
-  console.log('body.likes =', body.likes)
-
+  
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -26,10 +21,10 @@ blogsRouter.post('/', (request, response) => {
   if (body.title === undefined) {
     return response.status(400).json({ error: 'title missing' })
   }
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+  if (body.url === undefined) {
+    return response.status(400).json({ error: 'url missing' })
+  }
+  const postedBlog = await blog.save()
+  response.status(201).json(postedBlog.toJSON())
 })
 module.exports = blogsRouter
